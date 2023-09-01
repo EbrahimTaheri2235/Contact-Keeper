@@ -1,0 +1,19 @@
+{
+  "name": "js-10",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc" : "tsc -w",
+    "tailwind" : "npx tailwindcss -i ./index.css -o ./dist/output.css --watch"
+  },
+  "author": "Ebrahim Taheri",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  },
+  "dependencies": {
+    "flowbite": "^1.8.1"
+  }
+}
