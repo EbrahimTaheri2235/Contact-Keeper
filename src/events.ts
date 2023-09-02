@@ -3,38 +3,44 @@ import {
   contactNameInput,
   contactsListDrawer,
   contactsListElement,
-  deviceStorage} from "./importer.js"
-import {contactsList } from "./states.js";
-import {ContactProps,} from "./types.js";
+  deviceStorage,
+} from "./importer.js";
+import { contactsList } from "./states.js";
+import { CantactInfoType, ContactProps } from "./types.js";
+import { creatListItem, validateFields } from "./functions.js";
 
-
-export const showContactsBottonHandler = ()=>{
+export const showContactsBottonHandler = () => {
   contactsListDrawer?.classList.remove("hidden");
-}
-export const closeContactsDrawerHandler = ()=>{
+};
+export const closeContactsDrawerHandler = () => {
   contactsListDrawer?.classList.add("hidden");
-}
+};
+
+const validateCreatContact = (contactInfo: CantactInfoType) => {
+  if (!validateFields(contactInfo.contactName, contactInfo.phoneNumber + "")) {
+    alert("fill all fields");
+    throw Error("fill all fields");
+  }
+};
 
 export const handleCreateContact = () => {
+  validateCreatContact({
+    contactName: contactNameInput!.value,
+    phoneNumber: PhoneNumberInput!.value,
+  });
+
   const newContact: ContactProps = {
     id: crypto.randomUUID(),
     contactName: contactNameInput?.value ?? "",
     phoneNumber: PhoneNumberInput?.value ?? "",
     storage: deviceStorage?.checked ? "Device" : "SIM",
   };
+
   contactsList.push(newContact);
 
-  const listItem = document.createElement("li");
-  listItem.className = "flex flex-col list-none py-4 px-1 ";
-  const contactNameElement = document.createElement("h2");
-  contactNameElement.className = "text-black";
-  contactNameElement.innerText = newContact.contactName;
-  const contactPhoneNumberElement = document.createElement("p");
-  contactPhoneNumberElement.className = "text-slate-500";
-  contactPhoneNumberElement.innerText = newContact.phoneNumber.toString();
-
-  listItem.appendChild(contactNameElement);
-  listItem.appendChild(contactPhoneNumberElement);
-
+  const listItem = creatListItem({
+    contactName: newContact.contactName,
+    phoneNumber: newContact.phoneNumber,
+  });
   contactsListElement?.appendChild(listItem);
-}
+};
